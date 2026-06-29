@@ -1,17 +1,15 @@
 // ===========================================
-// ZETA Dashboard
 // analytics.js
-// Движок аналитики
+// Расчет всей аналитики
 // ===========================================
 
 function calculateAnalytics(products) {
 
-    // Копируем массив, чтобы не менять оригинал
-    let items = [...products];
+    const items = [...products];
 
-    // =====================================
+    // -----------------------------
     // Прибыль
-    // =====================================
+    // -----------------------------
 
     items.forEach(item => {
 
@@ -19,9 +17,9 @@ function calculateAnalytics(products) {
 
     });
 
-    // =====================================
-    // ABC
-    // =====================================
+    // -----------------------------
+    // ABC анализ
+    // -----------------------------
 
     items.sort((a, b) => b.profit - a.profit);
 
@@ -31,17 +29,21 @@ function calculateAnalytics(products) {
 
     items.forEach(item => {
 
-        cumulative += item.profit;
+        item.share = totalProfit === 0
+            ? 0
+            : item.profit / totalProfit;
 
-        const share = cumulative / totalProfit;
+        cumulative += item.share;
 
-        if (share <= 0.80) {
+        item.cumulative = cumulative;
+
+        if (cumulative <= 0.80) {
 
             item.abc = "A";
 
         }
 
-        else if (share <= 0.95) {
+        else if (cumulative <= 0.95) {
 
             item.abc = "B";
 
@@ -55,29 +57,29 @@ function calculateAnalytics(products) {
 
     });
 
-    // =====================================
-    // XYZ
-    // =====================================
+    // -----------------------------
+    // XYZ анализ
+    // -----------------------------
 
     items.forEach(item => {
 
         const months = item.months;
 
-        const avg =
+        const average =
             months.reduce((a, b) => a + b, 0) / months.length;
 
         const variance =
             months.reduce((sum, value) => {
 
-                return sum + Math.pow(value - avg, 2);
+                return sum + Math.pow(value - average, 2);
 
             }, 0) / months.length;
 
         const stdDev = Math.sqrt(variance);
 
-        const cv = avg === 0 ? 0 : stdDev / avg;
+        const cv = average === 0 ? 0 : stdDev / average;
 
-        item.average = avg;
+        item.average = average;
 
         item.stdDev = stdDev;
 
@@ -105,9 +107,9 @@ function calculateAnalytics(products) {
 
     });
 
-    console.log("Аналитика рассчитана");
+    console.log("Analytics готов");
 
-    console.table(items.slice(0,10));
+    console.table(items);
 
     return items;
 
