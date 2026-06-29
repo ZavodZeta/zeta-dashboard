@@ -1,28 +1,57 @@
-﻿function drawMatrix(products){
+// ===========================================
+// ZETA Dashboard
+// abcxyz.js
+// Матрица ABC × XYZ
+// ===========================================
 
-let matrix={
+function drawMatrix(products) {
 
-AX:0,AY:0,AZ:0,
+    const matrix = {
 
-BX:0,BY:0,BZ:0,
+        AX: 0,
+        AY: 0,
+        AZ: 0,
 
-CX:0,CY:0,CZ:0
+        BX: 0,
+        BY: 0,
+        BZ: 0,
 
-};
+        CX: 0,
+        CY: 0,
+        CZ: 0
 
-products.forEach(item=>{
+    };
 
-const key=item["Матрица"];
+    products.forEach(item => {
 
-if(matrix[key]!=undefined)
-matrix[key]++;
+        const abc = getText(item["ABC"]).toUpperCase();
 
-});
+        const xyz = getText(item["XYZ"]).toUpperCase();
 
-Object.keys(matrix).forEach(key=>{
+        const key = abc + xyz;
 
-document.getElementById(key).innerHTML=matrix[key];
+        if (matrix.hasOwnProperty(key)) {
 
-});
+            matrix[key]++;
+
+        }
+
+    });
+
+    Object.keys(matrix).forEach(cell => {
+
+        const element = document.getElementById(cell);
+
+        if (element) {
+
+            element.innerHTML = matrix[cell];
+
+        }
+
+    });
+
+    console.log("Матрица ABC×XYZ построена.");
+
+    console.table(matrix);
 
 }
