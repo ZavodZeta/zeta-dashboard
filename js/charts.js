@@ -1,47 +1,52 @@
 // ===========================================
-// ZETA Dashboard
 // charts.js
 // ===========================================
 
 let abcChart = null;
 let xyzChart = null;
 
-function drawCharts(statistics) {
 
-    // Удаляем старые графики
-    if (abcChart) {
+// ---------------------------
+// ABC
+// ---------------------------
+
+function drawABCChart(products){
+
+    let A = 0;
+    let B = 0;
+    let C = 0;
+
+    products.forEach(item=>{
+
+        const abc = getText(item["ABC"]);
+
+        if(abc==="A") A++;
+        if(abc==="B") B++;
+        if(abc==="C") C++;
+
+    });
+
+    if(abcChart){
+
         abcChart.destroy();
+
     }
 
-    if (xyzChart) {
-        xyzChart.destroy();
-    }
+    const ctx=document.getElementById("abcChart");
 
-    // ===== ABC =====
+    abcChart=new Chart(ctx,{
 
-    const abcCanvas = document.getElementById("abcChart");
+        type:"doughnut",
 
-    abcChart = new Chart(abcCanvas, {
+        data:{
 
-        type: "doughnut",
+            labels:["A","B","C"],
 
-        data: {
+            datasets:[{
 
-            labels: ["A", "B", "C"],
+                data:[A,B,C],
 
-            datasets: [{
-
-                data: [
-
-                    statistics.abc.A,
-
-                    statistics.abc.B,
-
-                    statistics.abc.C
-
-                ],
-
-                backgroundColor: [
+                backgroundColor:[
 
                     "#27ae60",
 
@@ -49,23 +54,21 @@ function drawCharts(statistics) {
 
                     "#e74c3c"
 
-                ],
-
-                borderWidth: 2
+                ]
 
             }]
 
         },
 
-        options: {
+        options:{
 
-            responsive: true,
+            responsive:true,
 
-            plugins: {
+            plugins:{
 
-                legend: {
+                legend:{
 
-                    position: "bottom"
+                    position:"bottom"
 
                 }
 
@@ -75,41 +78,51 @@ function drawCharts(statistics) {
 
     });
 
-    // ===== XYZ =====
+}
 
-    const xyzCanvas = document.getElementById("xyzChart");
 
-    xyzChart = new Chart(xyzCanvas, {
 
-        type: "bar",
+// ---------------------------
+// XYZ
+// ---------------------------
 
-        data: {
+function drawXYZChart(products){
 
-            labels: [
+    let X=0;
+    let Y=0;
+    let Z=0;
 
-                "X",
+    products.forEach(item=>{
 
-                "Y",
+        const xyz=getText(item["XYZ"]);
 
-                "Z"
+        if(xyz==="X") X++;
+        if(xyz==="Y") Y++;
+        if(xyz==="Z") Z++;
 
-            ],
+    });
 
-            datasets: [{
+    if(xyzChart){
 
-                label: "Количество SKU",
+        xyzChart.destroy();
 
-                data: [
+    }
 
-                    statistics.xyz.X,
+    const ctx=document.getElementById("xyzChart");
 
-                    statistics.xyz.Y,
+    xyzChart=new Chart(ctx,{
 
-                    statistics.xyz.Z
+        type:"bar",
 
-                ],
+        data:{
 
-                backgroundColor: [
+            labels:["X","Y","Z"],
+
+            datasets:[{
+
+                data:[X,Y,Z],
+
+                backgroundColor:[
 
                     "#3498db",
 
@@ -123,25 +136,25 @@ function drawCharts(statistics) {
 
         },
 
-        options: {
+        options:{
 
-            responsive: true,
+            responsive:true,
 
-            scales: {
+            plugins:{
 
-                y: {
+                legend:{
 
-                    beginAtZero: true
+                    display:false
 
                 }
 
             },
 
-            plugins: {
+            scales:{
 
-                legend: {
+                y:{
 
-                    display: false
+                    beginAtZero:true
 
                 }
 
