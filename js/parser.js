@@ -6,9 +6,9 @@ function parseProducts() {
 
     const rows = getSheet("ABC_XYZ_Prodact");
 
-    if (!rows || rows.length === 0) {
+    if (!rows.length) {
 
-        console.error("Лист ABC_XYZ_Prodact не найден.");
+        console.error("Лист не найден");
 
         return [];
 
@@ -18,27 +18,23 @@ function parseProducts() {
 
     rows.forEach(row => {
 
-        // Берем только реальные товары
-        if (
-            !row["SKU"] ||
-            !String(row["SKU"]).trim().startsWith("SKU")
-        ) {
-            return;
-        }
+        const sku = String(row["SKU"] || "").trim();
+
+        // пропускаем пустые строки
+        if (!sku) return;
+
+        // пропускаем пояснения
+        if (!sku.startsWith("SKU")) return;
 
         products.push({
 
-            sku: String(row["SKU"]).trim(),
+            sku: sku,
 
             name: row["Наименование"] || "",
 
             revenue: getNumber(row["Выручка"]),
 
             cost: getNumber(row["Себестоимость"]),
-
-            profit:
-                getNumber(row["Выручка"]) -
-                getNumber(row["Себестоимость"]),
 
             months: [
 
