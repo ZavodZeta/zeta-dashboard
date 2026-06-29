@@ -6,7 +6,7 @@ function parseProducts() {
 
     const rows = getSheet("ABC_XYZ_Prodact");
 
-    if (!rows.length) {
+    if (!rows || rows.length === 0) {
 
         console.error("Лист ABC_XYZ_Prodact не найден.");
 
@@ -14,28 +14,46 @@ function parseProducts() {
 
     }
 
-    const products = rows.map(row => ({
+    const products = [];
 
-        sku: row["SKU"],
+    rows.forEach(row => {
 
-        name: row["Наименование"],
+        // Берем только реальные товары
+        if (
+            !row["SKU"] ||
+            !String(row["SKU"]).trim().startsWith("SKU")
+        ) {
+            return;
+        }
 
-        revenue: getNumber(row["Выручка"]),
+        products.push({
 
-        cost: getNumber(row["Себестоимость"]),
+            sku: String(row["SKU"]).trim(),
 
-        months: [
+            name: row["Наименование"] || "",
 
-            getNumber(row["Jan"]),
-            getNumber(row["Feb"]),
-            getNumber(row["Mar"]),
-            getNumber(row["Apr"]),
-            getNumber(row["May"]),
-            getNumber(row["Jun"])
+            revenue: getNumber(row["Выручка"]),
 
-        ]
+            cost: getNumber(row["Себестоимость"]),
 
-    }));
+            profit:
+                getNumber(row["Выручка"]) -
+                getNumber(row["Себестоимость"]),
+
+            months: [
+
+                getNumber(row["Jan"]),
+                getNumber(row["Feb"]),
+                getNumber(row["Mar"]),
+                getNumber(row["Apr"]),
+                getNumber(row["May"]),
+                getNumber(row["Jun"])
+
+            ]
+
+        });
+
+    });
 
     console.log("Parser OK");
 
