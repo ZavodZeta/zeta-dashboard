@@ -1,136 +1,87 @@
 // ===========================================
-// ZETA Dashboard
-// excel.js
-// Загрузка Excel и подготовка данных
+// dashboard.js
+// Основная логика Dashboard
 // ===========================================
 
-let workbook = null;
-let sheets = {};
+function initDashboard() {
 
-async function loadExcel() {
+    console.log("Запуск Dashboard...");
 
-    try {
+    // Получаем данные с основного листа
+    let products = getSheet("ABC_XYZ_Prodact");
 
-        console.log("Загрузка report.xlsx...");
+    // Если такого листа нет — пробуем другой
+    if (products.length === 0) {
 
-        const response = await fetch("data/report.xlsx");
+        products = getSheet("ABC_Product");
 
-        if (!response.ok) {
+    }
 
-            throw new Error("Файл report.xlsx не найден.");
+    if (products.length === 0) {
+
+        console.error("Не найден лист с товарами.");
+
+        return;
+
+    }
+
+    // KPI
+    drawKPI(products);
+
+    // Диаграммы
+    drawABCChart(products);
+    drawXYZChart(products);
+
+    // Матрица
+    drawMatrix(products);
+
+    // Таблица
+    drawTable(products);
+
+    console.log("Dashboard успешно построен.");
+
+}
+
+// ===========================================
+// KPI
+// ===========================================
+
+function drawKPI(products) {
+
+    let revenue = 0;
+
+    const sku = products.length;
+
+    const clients = new Set();
+
+    let abcA = 0;
+
+    products.forEach(item => {
+
+        revenue += getNumber(item["Выручка"]);
+
+        if (item["Клиент"]) {
+
+            clients.add(item["Клиент"]);
 
         }
 
-        const buffer = await response.arrayBuffer();
+        if (getText(item["ABC"]).toUpperCase() === "A") {
 
-        workbook = XLSX.read(buffer, {
+            abcA++;
 
-            type: "array"
+        }
 
-        });
+    });
 
-        sheets = {};
+    document.getElementById("revenue").innerHTML =
+        revenue.toLocaleString("ru-RU") + " ₸";
 
-        workbook.SheetNames.forEach(sheetName => {
+    document.getElementById("sku").innerHTML = sku;
 
-            sheets[sheetName] = XLSX.utils.sheet_to_json(
+    document.getElementById("clients").innerHTML = clients.size;
 
-                workbook.Sheets[sheetName],
-
-                {
-
-                    defval: ""
-
-                }
-
-            );
-
-        });
-
-        console.log("");
-
-        console.log("===== Найденные листы =====");
-
-        console.table(workbook.SheetNames);
-
-        console.log("");
-
-        workbook.SheetNames.forEach(name => {
-
-            console.log("Лист:", name);
-
-            console.table(sheets[name].slice(0,5));
-
-        });
-
-        console.log("===================================");
-
-        console.log("Excel успешно загружен.");
-
-        console.log("===================================");
-
-        initDashboard();
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        alert(
-
-            "Не удалось открыть файл data/report.xlsx"
-
-        );
-
-    }
+    document.getElementById("abc").innerHTML =
+        Math.round((abcA / sku) * 100) + " %";
 
 }
-
-/* =======================================
-   Вспомогательные функции
-======================================= */
-
-function getSheet(name){
-
-    if(sheets[name]){
-
-        return sheets[name];
-
-    }
-
-    console.warn("Лист не найден:",name);
-
-    return [];
-
-}
-
-function getNumber(value){
-
-    if(value===null) return 0;
-
-    if(value===undefined) return 0;
-
-    if(value==="") return 0;
-
-    if(typeof value==="number") return value;
-
-    value = String(value)
-
-        .replace(/\s/g,"")
-
-        .replace(",", ".");
-
-    return Number(value)||0;
-
-}
-
-function getText(value){
-
-    if(value===null) return "";
-
-    if(value===undefined) return "";
-
-    return String(value).trim();
-
-}﻿
