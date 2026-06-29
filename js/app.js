@@ -19,22 +19,22 @@ async function startDashboard() {
         // Загружаем Excel
         await loadExcel();
 
-        // Парсим товары
+        // Получаем товары
         const products = parseProducts();
 
         console.log("Товаров:", products.length);
 
-        // Выполняем аналитику
-        const analytics = calculateAnalytics(products);
+        // Выполняем расчёты
+        calculateAnalytics(products);
 
         // Строим Dashboard
-        initDashboard(analytics);
+        initDashboard(products);
 
         console.log("Dashboard успешно построен.");
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.error(error);
 
