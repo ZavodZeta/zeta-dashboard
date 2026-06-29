@@ -1,0 +1,339 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ZETA Analytics Dashboard</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+
+<h2>ZETA</h2>
+
+<p>Analytics</p>
+
+</div>
+
+<ul>
+
+<li class="active">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<span>Dashboard</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-box"></i>
+
+<span>ABC анализ</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-chart-column"></i>
+
+<span>XYZ анализ</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-table-cells"></i>
+
+<span>ABC + XYZ</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-users"></i>
+
+<span>Клиенты</span>
+
+</li>
+
+<li>
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<span>Брак</span>
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="content">
+
+<header>
+
+<div>
+
+<h1>
+
+ZETA Dashboard
+
+</h1>
+
+<p>
+
+ABC • XYZ • KPI • Аналитика предприятия
+
+</p>
+
+</div>
+
+<button id="reload">
+
+<i class="fa-solid fa-rotate"></i>
+
+Обновить данные
+
+</button>
+
+</header>
+
+<section class="cards">
+
+<div class="card">
+
+<p>Выручка</p>
+
+<h2 id="revenue">
+
+—
+
+</h2>
+
+</div>
+
+<div class="card">
+
+<p>SKU</p>
+
+<h2 id="sku">
+
+—
+
+</h2>
+
+</div>
+
+<div class="card">
+
+<p>Клиенты</p>
+
+<h2 id="clients">
+
+—
+
+</h2>
+
+</div>
+
+<div class="card">
+
+<p>ABC A</p>
+
+<h2 id="abc">
+
+—
+
+</h2>
+
+</div>
+
+</section>
+
+<section class="charts">
+
+<div class="chart">
+
+<h3>
+
+ABC анализ
+
+</h3>
+
+<canvas id="abcChart"></canvas>
+
+</div>
+
+<div class="chart">
+
+<h3>
+
+XYZ анализ
+
+</h3>
+
+<canvas id="xyzChart"></canvas>
+
+</div>
+
+</section>
+
+<section class="matrix">
+
+<h2>
+
+Матрица ABC × XYZ
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th></th>
+
+<th>X</th>
+
+<th>Y</th>
+
+<th>Z</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<th>A</th>
+
+<td id="AX">0</td>
+
+<td id="AY">0</td>
+
+<td id="AZ">0</td>
+
+</tr>
+
+<tr>
+
+<th>B</th>
+
+<td id="BX">0</td>
+
+<td id="BY">0</td>
+
+<td id="BZ">0</td>
+
+</tr>
+
+<tr>
+
+<th>C</th>
+
+<td id="CX">0</td>
+
+<td id="CY">0</td>
+
+<td id="CZ">0</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<section class="top">
+
+<div class="table-box">
+
+<h2>
+
+ТОП товаров
+
+</h2>
+
+<table id="productsTable">
+
+<thead>
+
+<tr>
+
+<th>Товар</th>
+
+<th>Продажи</th>
+
+<th>ABC</th>
+
+<th>XYZ</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<footer>
+
+ZETA Analytics © 2026
+
+</footer>
+
+</div>
+
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<script src="js/excel.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/abcxyz.js"></script>
+<script src="js/table.js"></script>
+<script src="js/app.js"></script>
+</body>
+
+</html>
