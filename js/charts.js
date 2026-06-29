@@ -1,4 +1,5 @@
 // ===========================================
+// ZETA Dashboard v2
 // charts.js
 // ===========================================
 
@@ -6,9 +7,9 @@ let abcChart = null;
 let xyzChart = null;
 
 
-// ---------------------------
+// -------------------------
 // ABC
-// ---------------------------
+// -------------------------
 
 function drawABCChart(products){
 
@@ -18,11 +19,11 @@ function drawABCChart(products){
 
     products.forEach(item=>{
 
-        const abc = getText(item["ABC"]);
+        if(item.abc==="A") A++;
 
-        if(abc==="A") A++;
-        if(abc==="B") B++;
-        if(abc==="C") C++;
+        else if(item.abc==="B") B++;
+
+        else C++;
 
     });
 
@@ -32,43 +33,37 @@ function drawABCChart(products){
 
     }
 
-    const ctx=document.getElementById("abcChart");
+    abcChart = new Chart(
 
-    abcChart=new Chart(ctx,{
+        document.getElementById("abcChart"),
 
-        type:"doughnut",
+        {
 
-        data:{
+            type:"doughnut",
 
-            labels:["A","B","C"],
+            data:{
 
-            datasets:[{
+                labels:["A","B","C"],
 
-                data:[A,B,C],
+                datasets:[{
 
-                backgroundColor:[
+                    data:[A,B,C]
 
-                    "#27ae60",
+                }]
 
-                    "#f39c12",
+            },
 
-                    "#e74c3c"
+            options:{
 
-                ]
+                responsive:true,
 
-            }]
+                plugins:{
 
-        },
+                    legend:{
 
-        options:{
+                        position:"bottom"
 
-            responsive:true,
-
-            plugins:{
-
-                legend:{
-
-                    position:"bottom"
+                    }
 
                 }
 
@@ -76,29 +71,29 @@ function drawABCChart(products){
 
         }
 
-    });
+    );
 
 }
 
 
 
-// ---------------------------
+// -------------------------
 // XYZ
-// ---------------------------
+// -------------------------
 
 function drawXYZChart(products){
 
-    let X=0;
-    let Y=0;
-    let Z=0;
+    let X = 0;
+    let Y = 0;
+    let Z = 0;
 
     products.forEach(item=>{
 
-        const xyz=getText(item["XYZ"]);
+        if(item.xyz==="X") X++;
 
-        if(xyz==="X") X++;
-        if(xyz==="Y") Y++;
-        if(xyz==="Z") Z++;
+        else if(item.xyz==="Y") Y++;
+
+        else Z++;
 
     });
 
@@ -108,53 +103,49 @@ function drawXYZChart(products){
 
     }
 
-    const ctx=document.getElementById("xyzChart");
+    xyzChart = new Chart(
 
-    xyzChart=new Chart(ctx,{
+        document.getElementById("xyzChart"),
 
-        type:"bar",
+        {
 
-        data:{
+            type:"bar",
 
-            labels:["X","Y","Z"],
+            data:{
 
-            datasets:[{
+                labels:["X","Y","Z"],
 
-                data:[X,Y,Z],
+                datasets:[{
 
-                backgroundColor:[
+                    label:"SKU",
 
-                    "#3498db",
+                    data:[X,Y,Z]
 
-                    "#9b59b6",
-
-                    "#e74c3c"
-
-                ]
-
-            }]
-
-        },
-
-        options:{
-
-            responsive:true,
-
-            plugins:{
-
-                legend:{
-
-                    display:false
-
-                }
+                }]
 
             },
 
-            scales:{
+            options:{
 
-                y:{
+                responsive:true,
 
-                    beginAtZero:true
+                plugins:{
+
+                    legend:{
+
+                        display:false
+
+                    }
+
+                },
+
+                scales:{
+
+                    y:{
+
+                        beginAtZero:true
+
+                    }
 
                 }
 
@@ -162,6 +153,6 @@ function drawXYZChart(products){
 
         }
 
-    });
+    );
 
 }
