@@ -1,45 +1,36 @@
 // ===========================================
-// ZETA Dashboard
 // table.js
-// Таблица ТОП товаров
+// Таблица товаров
 // ===========================================
 
-function drawTable(products) {
+function drawTable(products){
 
-    const table = document.querySelector("#productsTable tbody");
+    const tbody = document.querySelector("#productTable tbody");
 
-    if (!table) return;
+    tbody.innerHTML = "";
 
-    table.innerHTML = "";
+    // Сортируем по прибыли
+    products.sort((a,b)=>b.profit-a.profit);
 
-    const sortedProducts = [...products].sort((a, b) => {
+    products.forEach(item=>{
 
-        return getNumber(b["Выручка"]) - getNumber(a["Выручка"]);
+        const tr = document.createElement("tr");
 
-    });
-
-    sortedProducts.slice(0, 20).forEach((item, index) => {
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>${index + 1}</td>
-
-            <td>${getText(item["Наименование"])}</td>
-
-            <td>${getNumber(item["Выручка"]).toLocaleString("ru-RU")} ₸</td>
-
-            <td>${getText(item["ABC"])}</td>
-
-            <td>${getText(item["XYZ"])}</td>
-
+        tr.innerHTML = `
+            <td>${item.sku}</td>
+            <td>${item.name}</td>
+            <td>${item.revenue.toLocaleString("ru-RU")} ₸</td>
+            <td>${item.profit.toLocaleString("ru-RU")} ₸</td>
+            <td>${item.abc}</td>
+            <td>${item.xyz}</td>
+            <td>${(item.cv*100).toFixed(1)} %</td>
+            <td><strong>${item.matrix}</strong></td>
         `;
 
-        table.appendChild(row);
+        tbody.appendChild(tr);
 
     });
 
-    console.log("ТОП товаров сформирован.");
+    console.log("Таблица построена.");
 
 }
