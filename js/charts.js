@@ -1,59 +1,154 @@
-﻿function drawCharts(products){
+// ===========================================
+// ZETA Dashboard
+// charts.js
+// ===========================================
 
-let a=0;
-let b=0;
-let c=0;
+let abcChart = null;
+let xyzChart = null;
 
-let x=0;
-let y=0;
-let z=0;
+function drawCharts(statistics) {
 
-products.forEach(item=>{
+    // Удаляем старые графики
+    if (abcChart) {
+        abcChart.destroy();
+    }
 
-if(item["ABC"]=="A") a++;
-if(item["ABC"]=="B") b++;
-if(item["ABC"]=="C") c++;
+    if (xyzChart) {
+        xyzChart.destroy();
+    }
 
-if(item["XYZ"]=="X") x++;
-if(item["XYZ"]=="Y") y++;
-if(item["XYZ"]=="Z") z++;
+    // ===== ABC =====
 
-});
+    const abcCanvas = document.getElementById("abcChart");
 
-new Chart(document.getElementById("abcChart"),{
+    abcChart = new Chart(abcCanvas, {
 
-type:"doughnut",
+        type: "doughnut",
 
-data:{
+        data: {
 
-labels:["A","B","C"],
+            labels: ["A", "B", "C"],
 
-datasets:[{
+            datasets: [{
 
-data:[a,b,c]
+                data: [
 
-}]
+                    statistics.abc.A,
 
-}
+                    statistics.abc.B,
 
-});
+                    statistics.abc.C
 
-new Chart(document.getElementById("xyzChart"),{
+                ],
 
-type:"bar",
+                backgroundColor: [
 
-data:{
+                    "#27ae60",
 
-labels:["X","Y","Z"],
+                    "#f39c12",
 
-datasets:[{
+                    "#e74c3c"
 
-data:[x,y,z]
+                ],
 
-}]
+                borderWidth: 2
 
-}
+            }]
 
-});
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom"
+
+                }
+
+            }
+
+        }
+
+    });
+
+    // ===== XYZ =====
+
+    const xyzCanvas = document.getElementById("xyzChart");
+
+    xyzChart = new Chart(xyzCanvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+
+                "X",
+
+                "Y",
+
+                "Z"
+
+            ],
+
+            datasets: [{
+
+                label: "Количество SKU",
+
+                data: [
+
+                    statistics.xyz.X,
+
+                    statistics.xyz.Y,
+
+                    statistics.xyz.Z
+
+                ],
+
+                backgroundColor: [
+
+                    "#3498db",
+
+                    "#9b59b6",
+
+                    "#e74c3c"
+
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            },
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            }
+
+        }
+
+    });
 
 }
