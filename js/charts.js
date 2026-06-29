@@ -6,6 +6,13 @@
 let abcChart = null;
 let xyzChart = null;
 
+function drawCharts(products){
+
+    drawABCChart(products);
+
+    drawXYZChart(products);
+
+}
 
 // -------------------------
 // ABC
@@ -23,7 +30,7 @@ function drawABCChart(products){
 
         else if(item.abc==="B") B++;
 
-        else C++;
+        else if(item.abc==="C") C++;
 
     });
 
@@ -47,7 +54,13 @@ function drawABCChart(products){
 
                 datasets:[{
 
-                    data:[A,B,C]
+                    data:[A,B,C],
+
+                    backgroundColor:[
+                        "#1976d2",
+                        "#ff9800",
+                        "#f44336"
+                    ]
 
                 }]
 
@@ -56,6 +69,8 @@ function drawABCChart(products){
             options:{
 
                 responsive:true,
+
+                maintainAspectRatio:false,
 
                 plugins:{
 
@@ -93,7 +108,7 @@ function drawXYZChart(products){
 
         else if(item.xyz==="Y") Y++;
 
-        else Z++;
+        else if(item.xyz==="Z") Z++;
 
     });
 
@@ -117,9 +132,13 @@ function drawXYZChart(products){
 
                 datasets:[{
 
-                    label:"SKU",
+                    data:[X,Y,Z],
 
-                    data:[X,Y,Z]
+                    backgroundColor:[
+                        "#1976d2",
+                        "#ff9800",
+                        "#f44336"
+                    ]
 
                 }]
 
@@ -128,6 +147,8 @@ function drawXYZChart(products){
             options:{
 
                 responsive:true,
+
+                maintainAspectRatio:false,
 
                 plugins:{
 
@@ -143,7 +164,11 @@ function drawXYZChart(products){
 
                     y:{
 
-                        beginAtZero:true
+                        beginAtZero:true,
+
+                        ticks:{
+                            precision:0
+                        }
 
                     }
 
