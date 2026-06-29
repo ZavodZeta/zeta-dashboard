@@ -1,30 +1,45 @@
-﻿function drawTable(products){
+// ===========================================
+// ZETA Dashboard
+// table.js
+// Таблица ТОП товаров
+// ===========================================
 
-const tbody=document.querySelector("#productsTable tbody");
+function drawTable(products) {
 
-tbody.innerHTML="";
+    const table = document.querySelector("#productsTable tbody");
 
-products
-.sort((a,b)=>b["Выручка"]-a["Выручка"])
-.slice(0,20)
-.forEach(item=>{
+    if (!table) return;
 
-tbody.innerHTML+=`
+    table.innerHTML = "";
 
-<tr>
+    const sortedProducts = [...products].sort((a, b) => {
 
-<td>${item["Наименование"]}</td>
+        return getNumber(b["Выручка"]) - getNumber(a["Выручка"]);
 
-<td>${Number(item["Выручка"]).toLocaleString("ru-RU")}</td>
+    });
 
-<td>${item["ABC"]}</td>
+    sortedProducts.slice(0, 20).forEach((item, index) => {
 
-<td>${item["XYZ"]}</td>
+        const row = document.createElement("tr");
 
-</tr>
+        row.innerHTML = `
 
-`;
+            <td>${index + 1}</td>
 
-});
+            <td>${getText(item["Наименование"])}</td>
+
+            <td>${getNumber(item["Выручка"]).toLocaleString("ru-RU")} ₸</td>
+
+            <td>${getText(item["ABC"])}</td>
+
+            <td>${getText(item["XYZ"])}</td>
+
+        `;
+
+        table.appendChild(row);
+
+    });
+
+    console.log("ТОП товаров сформирован.");
 
 }
