@@ -1,36 +1,31 @@
 // ===========================================
-// ZETA Dashboard
 // abcxyz.js
 // Матрица ABC × XYZ
 // ===========================================
 
-function drawMatrix(products) {
+function drawMatrix(products){
 
     const matrix = {
 
-        AX: 0,
-        AY: 0,
-        AZ: 0,
+        AX:0,
+        AY:0,
+        AZ:0,
 
-        BX: 0,
-        BY: 0,
-        BZ: 0,
+        BX:0,
+        BY:0,
+        BZ:0,
 
-        CX: 0,
-        CY: 0,
-        CZ: 0
+        CX:0,
+        CY:0,
+        CZ:0
 
     };
 
-    products.forEach(item => {
+    products.forEach(item=>{
 
-        const abc = getText(item["ABC"]).toUpperCase();
+        const key = item.matrix;
 
-        const xyz = getText(item["XYZ"]).toUpperCase();
-
-        const key = abc + xyz;
-
-        if (matrix.hasOwnProperty(key)) {
+        if(matrix.hasOwnProperty(key)){
 
             matrix[key]++;
 
@@ -38,19 +33,26 @@ function drawMatrix(products) {
 
     });
 
-    Object.keys(matrix).forEach(cell => {
+    const container = document.getElementById("matrix");
 
-        const element = document.getElementById(cell);
+    container.innerHTML="";
 
-        if (element) {
+    Object.keys(matrix).forEach(key=>{
 
-            element.innerHTML = matrix[cell];
+        const div=document.createElement("div");
 
-        }
+        div.className="matrix-cell "+key.toLowerCase();
+
+        div.innerHTML=`
+            <div style="font-size:22px">${key}</div>
+            <div style="font-size:34px">${matrix[key]}</div>
+        `;
+
+        container.appendChild(div);
 
     });
 
-    console.log("Матрица ABC×XYZ построена.");
+    console.log("Матрица построена");
 
     console.table(matrix);
 
