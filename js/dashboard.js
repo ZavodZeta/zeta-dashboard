@@ -25,30 +25,24 @@ function initDashboard(products) {
 
 function drawKPI(products){
 
-    const revenue = products.reduce(
-        (sum,item)=>sum+item.revenue,
-        0
-    );
+    const revenue = products.reduce((sum, p) => sum + (p.revenue || 0), 0);
 
-    const profit = products.reduce(
-        (sum,item)=>sum+item.profit,
-        0
-    );
+    const profit = products.reduce((sum, p) => sum + (p.profit || 0), 0);
 
     const sku = products.length;
 
-    const clients = getSheet("ABC_Clients").length;
+    const clients = getSheet("ABC_Clients")
+        ? getSheet("ABC_Clients").length
+        : 0;
 
-    document.getElementById("revenue").innerHTML =
-        revenue.toLocaleString("ru-RU")+" ₸";
+    document.getElementById("revenue").textContent =
+        Number(revenue).toLocaleString("ru-RU") + " ₸";
 
-    document.getElementById("profit").innerHTML =
-        profit.toLocaleString("ru-RU")+" ₸";
+    document.getElementById("profit").textContent =
+        Number(profit).toLocaleString("ru-RU") + " ₸";
 
-    document.getElementById("sku").innerHTML =
-        sku;
+    document.getElementById("sku").textContent = sku;
 
-    document.getElementById("clients").innerHTML =
-        clients;
+    document.getElementById("clients").textContent = clients;
 
 }
