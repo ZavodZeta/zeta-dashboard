@@ -1,87 +1,73 @@
 // ===========================================
 // dashboard.js
-// Основная логика Dashboard
+// ZETA Dashboard
 // ===========================================
 
 function initDashboard() {
 
     console.log("Запуск Dashboard...");
 
-    // Получаем данные с основного листа
-    let products = getSheet("ABC_XYZ_Prodact");
-
-    // Если такого листа нет — пробуем другой
-    if (products.length === 0) {
-
-        products = getSheet("ABC_Product");
-
-    }
+    // Основной лист с товарами
+    const products = getSheet("ABC_XYZ_Prodact");
 
     if (products.length === 0) {
 
-        console.error("Не найден лист с товарами.");
+        alert("Лист ABC_XYZ_Prodact не найден!");
 
         return;
 
     }
 
-    // KPI
     drawKPI(products);
 
-    // Диаграммы
     drawABCChart(products);
+
     drawXYZChart(products);
 
-    // Матрица
     drawMatrix(products);
 
-    // Таблица
     drawTable(products);
 
-    console.log("Dashboard успешно построен.");
+    console.log("Dashboard построен.");
 
 }
+
 
 // ===========================================
 // KPI
 // ===========================================
 
-function drawKPI(products) {
+function drawKPI(products){
 
     let revenue = 0;
 
-    const sku = products.length;
+    let countA = 0;
 
-    const clients = new Set();
-
-    let abcA = 0;
-
-    products.forEach(item => {
+    products.forEach(item=>{
 
         revenue += getNumber(item["Выручка"]);
 
-        if (item["Клиент"]) {
+        if(getText(item["ABC"])==="A"){
 
-            clients.add(item["Клиент"]);
-
-        }
-
-        if (getText(item["ABC"]).toUpperCase() === "A") {
-
-            abcA++;
+            countA++;
 
         }
 
     });
 
+    const sku = products.length;
+
+    // Берем клиентов с отдельного листа
+    const clients = getSheet("ABC_Clients").length;
+
     document.getElementById("revenue").innerHTML =
-        revenue.toLocaleString("ru-RU") + " ₸";
+        revenue.toLocaleString("ru-RU")+" ₸";
 
     document.getElementById("sku").innerHTML = sku;
 
-    document.getElementById("clients").innerHTML = clients.size;
+    document.getElementById("clients").innerHTML = clients;
 
     document.getElementById("abc").innerHTML =
-        Math.round((abcA / sku) * 100) + " %";
+        Math.round(countA/sku*100)+" %";
 
 }
