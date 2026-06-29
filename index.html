@@ -1,34 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <title>ZETA Analytics Dashboard</title>
 
-<title>ZETA Analytics Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-<link rel="stylesheet"
-href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
@@ -36,65 +23,44 @@ href="css/style.css">
 
 <div class="sidebar">
 
-<div class="logo">
+    <div class="logo">
+        <h2>ZETA</h2>
+        <p>Analytics Dashboard</p>
+    </div>
 
-<h2>ZETA</h2>
+    <ul>
 
-<p>Analytics</p>
+        <li class="active">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+        </li>
 
-</div>
+        <li>
+            <i class="fa-solid fa-box"></i>
+            <span>ABC анализ</span>
+        </li>
 
-<ul>
+        <li>
+            <i class="fa-solid fa-chart-column"></i>
+            <span>XYZ анализ</span>
+        </li>
 
-<li class="active">
+        <li>
+            <i class="fa-solid fa-table-cells"></i>
+            <span>ABC × XYZ</span>
+        </li>
 
-<i class="fa-solid fa-chart-line"></i>
+        <li>
+            <i class="fa-solid fa-users"></i>
+            <span>Клиенты</span>
+        </li>
 
-<span>Dashboard</span>
+        <li>
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Аналитика</span>
+        </li>
 
-</li>
-
-<li>
-
-<i class="fa-solid fa-box"></i>
-
-<span>ABC анализ</span>
-
-</li>
-
-<li>
-
-<i class="fa-solid fa-chart-column"></i>
-
-<span>XYZ анализ</span>
-
-</li>
-
-<li>
-
-<i class="fa-solid fa-table-cells"></i>
-
-<span>ABC + XYZ</span>
-
-</li>
-
-<li>
-
-<i class="fa-solid fa-users"></i>
-
-<span>Клиенты</span>
-
-</li>
-
-<li>
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-<span>Брак</span>
-
-</li>
-
-</ul>
+    </ul>
 
 </div>
 
@@ -102,231 +68,201 @@ href="css/style.css">
 
 <header>
 
-<div>
+    <div>
 
-<h1>
+        <h1>ZETA Dashboard</h1>
 
-ZETA Dashboard
+        <p>
 
-</h1>
+            ABC • XYZ • KPI • Аналитика предприятия
 
-<p>
+        </p>
 
-ABC • XYZ • KPI • Аналитика предприятия
+    </div>
 
-</p>
+    <button id="reload">
 
-</div>
+        <i class="fa-solid fa-rotate"></i>
 
-<button id="reload">
+        Обновить данные
 
-<i class="fa-solid fa-rotate"></i>
-
-Обновить данные
-
-</button>
+    </button>
 
 </header>
 
 <section class="cards">
 
-<div class="card">
+    <div class="card">
 
-<p>Выручка</p>
+        <p>Выручка</p>
 
-<h2 id="revenue">
+        <h2 id="revenue">—</h2>
 
-—
+    </div>
 
-</h2>
+    <div class="card">
 
-</div>
+        <p>SKU</p>
 
-<div class="card">
+        <h2 id="sku">—</h2>
 
-<p>SKU</p>
+    </div>
 
-<h2 id="sku">
+    <div class="card">
 
-—
+        <p>Клиенты</p>
 
-</h2>
+        <h2 id="clients">—</h2>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<p>Клиенты</p>
+        <p>ABC A</p>
 
-<h2 id="clients">
+        <h2 id="abc">—</h2>
 
-—
-
-</h2>
-
-</div>
-
-<div class="card">
-
-<p>ABC A</p>
-
-<h2 id="abc">
-
-—
-
-</h2>
-
-</div>
+    </div>
 
 </section>
 
 <section class="charts">
 
-<div class="chart">
+    <div class="chart">
 
-<h3>
+        <h3>ABC анализ</h3>
 
-ABC анализ
+        <canvas id="abcChart"></canvas>
 
-</h3>
+    </div>
 
-<canvas id="abcChart"></canvas>
+    <div class="chart">
 
-</div>
+        <h3>XYZ анализ</h3>
 
-<div class="chart">
+        <canvas id="xyzChart"></canvas>
 
-<h3>
-
-XYZ анализ
-
-</h3>
-
-<canvas id="xyzChart"></canvas>
-
-</div>
+    </div>
 
 </section>
 
 <section class="matrix">
 
-<h2>
+    <h2>Матрица ABC × XYZ</h2>
 
-Матрица ABC × XYZ
+    <table>
 
-</h2>
+        <thead>
 
-<table>
+        <tr>
 
-<thead>
+            <th></th>
 
-<tr>
+            <th>X</th>
 
-<th></th>
+            <th>Y</th>
 
-<th>X</th>
+            <th>Z</th>
 
-<th>Y</th>
+        </tr>
 
-<th>Z</th>
+        </thead>
 
-</tr>
+        <tbody>
 
-</thead>
+        <tr>
 
-<tbody>
+            <th>A</th>
 
-<tr>
+            <td id="AX">0</td>
 
-<th>A</th>
+            <td id="AY">0</td>
 
-<td id="AX">0</td>
+            <td id="AZ">0</td>
 
-<td id="AY">0</td>
+        </tr>
 
-<td id="AZ">0</td>
+        <tr>
 
-</tr>
+            <th>B</th>
 
-<tr>
+            <td id="BX">0</td>
 
-<th>B</th>
+            <td id="BY">0</td>
 
-<td id="BX">0</td>
+            <td id="BZ">0</td>
 
-<td id="BY">0</td>
+        </tr>
 
-<td id="BZ">0</td>
+        <tr>
 
-</tr>
+            <th>C</th>
 
-<tr>
+            <td id="CX">0</td>
 
-<th>C</th>
+            <td id="CY">0</td>
 
-<td id="CX">0</td>
+            <td id="CZ">0</td>
 
-<td id="CY">0</td>
+        </tr>
 
-<td id="CZ">0</td>
+        </tbody>
 
-</tr>
-
-</tbody>
-
-</table>
+    </table>
 
 </section>
 
 <section class="top">
 
-<div class="table-box">
+    <div class="table-box">
 
-<h2>
+        <h2>ТОП товаров</h2>
 
-ТОП товаров
+        <table id="productsTable">
 
-</h2>
+            <thead>
 
-<table id="productsTable">
+            <tr>
 
-<thead>
+                <th>№</th>
 
-<tr>
+                <th>Товар</th>
 
-<th>Товар</th>
+                <th>Выручка</th>
 
-<th>Продажи</th>
+                <th>ABC</th>
 
-<th>ABC</th>
+                <th>XYZ</th>
 
-<th>XYZ</th>
+            </tr>
 
-</tr>
+            </thead>
 
-</thead>
+            <tbody>
 
-<tbody>
+            </tbody>
 
-</tbody>
+        </table>
 
-</table>
-
-</div>
+    </div>
 
 </section>
 
 <footer>
 
-ZETA Analytics © 2026
+    ZETA Analytics © 2026
 
 </footer>
 
 </div>
 
-<script src="js/app.js"></script>
+<!-- Библиотеки -->
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- JavaScript -->
 
 <script src="js/excel.js"></script>
 <script src="js/dashboard.js"></script>
@@ -334,6 +270,7 @@ ZETA Analytics © 2026
 <script src="js/abcxyz.js"></script>
 <script src="js/table.js"></script>
 <script src="js/app.js"></script>
+
 </body>
 
 </html>
