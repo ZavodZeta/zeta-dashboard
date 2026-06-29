@@ -1,29 +1,45 @@
 // ===========================================
-// ZETA Dashboard
+// ZETA Dashboard v2
 // app.js
 // Точка входа приложения
 // ===========================================
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", startDashboard);
+
+async function startDashboard() {
 
     console.clear();
 
     console.log("====================================");
-    console.log("       ZETA ANALYTICS DASHBOARD");
+    console.log(" ZETA Dashboard v2");
     console.log("====================================");
 
-    loadExcel();
+    try {
 
-});
+        // Загружаем Excel
+        await loadExcel();
 
-const reloadButton = document.getElementById("reload");
+        // Парсим товары
+        const products = parseProducts();
 
-if (reloadButton) {
+        console.log("Товаров:", products.length);
 
-    reloadButton.addEventListener("click", () => {
+        // Выполняем аналитику
+        const analytics = calculateAnalytics(products);
 
-        location.reload();
+        // Строим Dashboard
+        initDashboard(analytics);
 
-    });
+        console.log("Dashboard успешно построен.");
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Ошибка запуска Dashboard.");
+
+    }
 
 }
