@@ -1,22 +1,11 @@
 // ===========================================
+// ZETA Dashboard v2
 // dashboard.js
-// ZETA Dashboard
 // ===========================================
 
-function initDashboard() {
+function initDashboard(products) {
 
-    console.log("Запуск Dashboard...");
-
-    // Основной лист с товарами
-    const products = getSheet("ABC_XYZ_Prodact");
-
-    if (products.length === 0) {
-
-        alert("Лист ABC_XYZ_Prodact не найден!");
-
-        return;
-
-    }
+    console.log("Построение Dashboard...");
 
     drawKPI(products);
 
@@ -28,10 +17,7 @@ function initDashboard() {
 
     drawTable(products);
 
-    console.log("Dashboard построен.");
-
 }
-
 
 // ===========================================
 // KPI
@@ -39,35 +25,24 @@ function initDashboard() {
 
 function drawKPI(products){
 
-    let revenue = 0;
+    const revenue = products.reduce((sum,item)=>sum+item.revenue,0);
 
-    let countA = 0;
-
-    products.forEach(item=>{
-
-        revenue += getNumber(item["Выручка"]);
-
-        if(getText(item["ABC"])==="A"){
-
-            countA++;
-
-        }
-
-    });
+    const profit = products.reduce((sum,item)=>sum+item.profit,0);
 
     const sku = products.length;
 
-    // Берем клиентов с отдельного листа
     const clients = getSheet("ABC_Clients").length;
 
     document.getElementById("revenue").innerHTML =
         revenue.toLocaleString("ru-RU")+" ₸";
 
-    document.getElementById("sku").innerHTML = sku;
+    document.getElementById("profit").innerHTML =
+        profit.toLocaleString("ru-RU")+" ₸";
 
-    document.getElementById("clients").innerHTML = clients;
+    document.getElementById("sku").innerHTML =
+        sku;
 
-    document.getElementById("abc").innerHTML =
-        Math.round(countA/sku*100)+" %";
+    document.getElementById("clients").innerHTML =
+        clients;
 
 }
