@@ -1,14 +1,15 @@
 // ===========================================
 // parser.js
+// Чтение товаров из Excel
 // ===========================================
 
 function parseProducts() {
 
     const rows = getSheet("ABC_XYZ_Prodact");
 
-    if (!rows.length) {
+    if (!rows || rows.length === 0) {
 
-        console.error("Лист не найден");
+        console.error("Лист ABC_XYZ_Prodact не найден.");
 
         return [];
 
@@ -18,23 +19,36 @@ function parseProducts() {
 
     rows.forEach(row => {
 
-        const sku = String(row["SKU"] || "").trim();
+        const sku = getText(row["SKU"]);
 
-        // пропускаем пустые строки
-        if (!sku) return;
-
-        // пропускаем пояснения
-        if (!sku.startsWith("SKU")) return;
+        // Берем только реальные товары
+        if (!sku.startsWith("SKU")) {
+            return;
+        }
 
         products.push({
 
             sku: sku,
 
-            name: row["Наименование"] || "",
+            name: getText(row["Наименование"]),
 
             revenue: getNumber(row["Выручка"]),
 
             cost: getNumber(row["Себестоимость"]),
+
+            profit: getNumber(row["Валовая прибыль"]),
+
+            abc: getText(row["ABC"]),
+
+            xyz: getText(row["XYZ"]),
+
+            matrix: getText(row["Матрица"]),
+
+            cv: getNumber(row["CV (коэфф. вариации)"]),
+
+            average: getNumber(row["Среднее, продается за период"]),
+
+            stdDev: getNumber(row["StdDev (стандартное отклонение)"]),
 
             months: [
 
@@ -51,7 +65,10 @@ function parseProducts() {
 
     });
 
-    console.log("Parser OK");
+    console.log("===================================");
+    console.log("Parser успешно выполнен");
+    console.log("Найдено товаров:", products.length);
+    console.log("===================================");
 
     console.table(products);
 
