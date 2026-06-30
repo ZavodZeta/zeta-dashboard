@@ -1,5 +1,5 @@
 // ===========================================
-// ZETA Dashboard v2
+// ZETA Dashboard v3
 // app.js
 // Точка входа приложения
 // ===========================================
@@ -11,7 +11,7 @@ async function startDashboard() {
     console.clear();
 
     console.log("====================================");
-    console.log(" ZETA Dashboard v2");
+    console.log(" ZETA Dashboard v3");
     console.log("====================================");
 
     try {
@@ -19,18 +19,32 @@ async function startDashboard() {
         // Загружаем Excel
         await loadExcel();
 
-        // Получаем товары
-        const products = parseProducts();
+        // Получаем товары из excel.js
+        const products = getProducts();
 
-        console.log("Товаров:", products.length);
+        if (!products.length) {
 
-        // Выполняем расчёты
-        calculateAnalytics(products);
+            throw new Error("Не найдено ни одного товара на листе ABC_XYZ_Product.");
 
-        // Строим Dashboard
+        }
+
+        console.log("====================================");
+        console.log("Товаров загружено:", products.length);
+        console.log("====================================");
+
+        // Аналитика (если функция существует)
+        if (typeof calculateAnalytics === "function") {
+
+            calculateAnalytics(products);
+
+        }
+
+        // Построение Dashboard
         initDashboard(products);
 
+        console.log("====================================");
         console.log("Dashboard успешно построен.");
+        console.log("====================================");
 
     }
 
@@ -38,7 +52,10 @@ async function startDashboard() {
 
         console.error(error);
 
-        alert("Ошибка запуска Dashboard.");
+        alert(
+            "Ошибка запуска Dashboard.\n\n" +
+            error.message
+        );
 
     }
 
