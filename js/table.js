@@ -1,40 +1,59 @@
 // ===========================================
+// ZETA Dashboard v3
 // table.js
 // ===========================================
 
-function drawTable(products){
+function drawTable(products) {
 
     const tbody = document.querySelector("#productTable tbody");
 
     tbody.innerHTML = "";
 
-    products.sort((a,b)=>(b.profit||0)-(a.profit||0));
+    // Сортировка по выручке
+    products.sort((a, b) => b.revenue - a.revenue);
 
-    products.forEach(item=>{
+    products.forEach((item, index) => {
 
-        const tr=document.createElement("tr");
+        const tr = document.createElement("tr");
 
-        tr.innerHTML=`
-            <td>${item.sku || ""}</td>
-            <td>${item.name || ""}</td>
+        tr.innerHTML = `
 
-            <td>${(item.revenue || 0).toLocaleString("ru-RU")} ₸</td>
+            <td>${index + 1}</td>
 
-            <td>${(item.profit || 0).toLocaleString("ru-RU")} ₸</td>
+            <td>${item.name}</td>
 
-            <td>${item.abc || "-"}</td>
+            <td>${Number(item.quantity).toLocaleString("ru-RU")}</td>
 
-            <td>${item.xyz || "-"}</td>
+            <td>${Number(item.revenue).toLocaleString("ru-RU")} ₸</td>
 
-            <td>${((item.cv || 0)*100).toFixed(1)} %</td>
+            <td>${(item.share * 100).toFixed(2)} %</td>
 
-            <td>${item.matrix || "-"}</td>
+            <td>${(item.cumulative * 100).toFixed(2)} %</td>
+
+            <td>
+                <span class="badge badge-${item.abc}">
+                    ${item.abc}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge badge-${item.xyz}">
+                    ${item.xyz}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge badge-${item.category}">
+                    ${item.category}
+                </span>
+            </td>
+
         `;
 
         tbody.appendChild(tr);
 
     });
 
-    console.log("Таблица построена.");
+    console.log("Таблица товаров построена.");
 
 }
