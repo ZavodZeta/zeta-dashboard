@@ -1,43 +1,42 @@
 // ===========================================
-// ZETA Dashboard v2
+// ZETA Dashboard v3
 // charts.js
 // ===========================================
 
 let abcChart = null;
 let xyzChart = null;
 
-function drawCharts(products){
+// ===========================================
+// Построение всех графиков
+// ===========================================
+
+function drawCharts(products) {
 
     drawABCChart(products);
-
     drawXYZChart(products);
 
 }
 
-// -------------------------
-// ABC
-// -------------------------
+// ===========================================
+// ABC (Кольцевая диаграмма)
+// ===========================================
 
-function drawABCChart(products){
+function drawABCChart(products) {
 
-    let A = 0;
-    let B = 0;
-    let C = 0;
+    const counts = { A: 0, B: 0, C: 0 };
 
-    products.forEach(item=>{
+    products.forEach(product => {
 
-        if(item.abc==="A") A++;
+        if (counts.hasOwnProperty(product.abc)) {
 
-        else if(item.abc==="B") B++;
+            counts[product.abc]++;
 
-        else if(item.abc==="C") C++;
+        }
 
     });
 
-    if(abcChart){
-
+    if (abcChart) {
         abcChart.destroy();
-
     }
 
     abcChart = new Chart(
@@ -46,37 +45,45 @@ function drawABCChart(products){
 
         {
 
-            type:"doughnut",
+            type: "doughnut",
 
-            data:{
+            data: {
 
-                labels:["A","B","C"],
+                labels: ["A", "B", "C"],
 
-                datasets:[{
+                datasets: [{
 
-                    data:[A,B,C],
+                    label: "Количество товаров",
 
-                    backgroundColor:[
-                        "#1976d2",
-                        "#ff9800",
-                        "#f44336"
-                    ]
+                    data: [
+                        counts.A,
+                        counts.B,
+                        counts.C
+                    ],
+
+                    backgroundColor: [
+                        "#2ecc71",
+                        "#f1c40f",
+                        "#e74c3c"
+                    ],
+
+                    borderWidth: 1
 
                 }]
 
             },
 
-            options:{
+            options: {
 
-                responsive:true,
+                responsive: true,
 
-                maintainAspectRatio:false,
+                maintainAspectRatio: false,
 
-                plugins:{
+                plugins: {
 
-                    legend:{
+                    legend: {
 
-                        position:"bottom"
+                        position: "bottom"
 
                     }
 
@@ -90,32 +97,26 @@ function drawABCChart(products){
 
 }
 
+// ===========================================
+// XYZ (Столбчатая диаграмма)
+// ===========================================
 
+function drawXYZChart(products) {
 
-// -------------------------
-// XYZ
-// -------------------------
+    const counts = { X: 0, Y: 0, Z: 0 };
 
-function drawXYZChart(products){
+    products.forEach(product => {
 
-    let X = 0;
-    let Y = 0;
-    let Z = 0;
+        if (counts.hasOwnProperty(product.xyz)) {
 
-    products.forEach(item=>{
+            counts[product.xyz]++;
 
-        if(item.xyz==="X") X++;
-
-        else if(item.xyz==="Y") Y++;
-
-        else if(item.xyz==="Z") Z++;
+        }
 
     });
 
-    if(xyzChart){
-
+    if (xyzChart) {
         xyzChart.destroy();
-
     }
 
     xyzChart = new Chart(
@@ -124,50 +125,58 @@ function drawXYZChart(products){
 
         {
 
-            type:"bar",
+            type: "bar",
 
-            data:{
+            data: {
 
-                labels:["X","Y","Z"],
+                labels: ["X", "Y", "Z"],
 
-                datasets:[{
+                datasets: [{
 
-                    data:[X,Y,Z],
+                    label: "Количество товаров",
 
-                    backgroundColor:[
-                        "#1976d2",
-                        "#ff9800",
-                        "#f44336"
+                    data: [
+                        counts.X,
+                        counts.Y,
+                        counts.Z
+                    ],
+
+                    backgroundColor: [
+                        "#3498db",
+                        "#f39c12",
+                        "#9b59b6"
                     ]
 
                 }]
 
             },
 
-            options:{
+            options: {
 
-                responsive:true,
+                responsive: true,
 
-                maintainAspectRatio:false,
+                maintainAspectRatio: false,
 
-                plugins:{
+                plugins: {
 
-                    legend:{
+                    legend: {
 
-                        display:false
+                        display: false
 
                     }
 
                 },
 
-                scales:{
+                scales: {
 
-                    y:{
+                    y: {
 
-                        beginAtZero:true,
+                        beginAtZero: true,
 
-                        ticks:{
-                            precision:0
+                        ticks: {
+
+                            precision: 0
+
                         }
 
                     }
