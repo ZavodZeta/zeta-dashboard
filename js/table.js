@@ -3,16 +3,85 @@
 // table.js
 // ===========================================
 
+let allProducts = [];
+
+// ===========================================
+// Построение таблицы
+// ===========================================
+
 function drawTable(products) {
+
+    allProducts = [...products];
+
+    renderTable();
+
+    initTableFilters();
+
+}
+
+// ===========================================
+// Отрисовка таблицы
+// ===========================================
+
+function renderTable() {
 
     const tbody = document.querySelector("#productTable tbody");
 
     tbody.innerHTML = "";
 
-    // Сортировка по выручке
-    products.sort((a, b) => b.revenue - a.revenue);
+    const search =
+        document.getElementById("searchInput")?.value
+            .toLowerCase()
+            .trim() || "";
 
-    products.forEach((item, index) => {
+    const abc =
+        document.getElementById("abcFilter")?.value || "ALL";
+
+    let filtered = [...allProducts];
+
+    // -------------------------
+    // Поиск
+    // -------------------------
+
+    if (search !== "") {
+
+        filtered = filtered.filter(item =>
+
+            (item.name || "")
+                .toLowerCase()
+                .includes(search)
+
+            ||
+
+            (item.sku || "")
+                .toLowerCase()
+                .includes(search)
+
+        );
+
+    }
+
+    // -------------------------
+    // ABC
+    // -------------------------
+
+    if (abc !== "ALL") {
+
+        filtered = filtered.filter(item => item.abc === abc);
+
+    }
+
+    // -------------------------
+    // Сортировка
+    // -------------------------
+
+    filtered.sort((a, b) => b.revenue - a.revenue);
+
+    // -------------------------
+    // Таблица
+    // -------------------------
+
+    filtered.forEach((item, index) => {
 
         const tr = document.createElement("tr");
 
@@ -31,19 +100,19 @@ function drawTable(products) {
             <td>${(item.cumulative * 100).toFixed(2)} %</td>
 
             <td>
-                <span class="badge badge-${item.abc}">
+                <span class="badge badge-${(item.abc || "").toLowerCase()}">
                     ${item.abc}
                 </span>
             </td>
 
             <td>
-                <span class="badge badge-${item.xyz}">
+                <span class="badge badge-${(item.xyz || "").toLowerCase()}">
                     ${item.xyz}
                 </span>
             </td>
 
             <td>
-                <span class="badge badge-${item.category}">
+                <span class="badge badge-${(item.category || "").toLowerCase()}">
                     ${item.category}
                 </span>
             </td>
@@ -54,6 +123,36 @@ function drawTable(products) {
 
     });
 
-    console.log("Таблица товаров построена.");
+    console.log("Отображено товаров:", filtered.length);
+
+}
+
+// ===========================================
+// Инициализация фильтров
+// ===========================================
+
+let filtersInitialized = false;
+
+function initTableFilters() {
+
+    if (filtersInitialized) return;
+
+    filtersInitialized = true;
+
+    const searchInput = document.getElementById("searchInput");
+
+    const abcFilter = document.getElementById("abcFilter");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("input", renderTable);
+
+    }
+
+    if (abcFilter) {
+
+        abcFilter.addEventListener("change", renderTable);
+
+    }
 
 }
