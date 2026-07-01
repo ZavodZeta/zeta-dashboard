@@ -25,97 +25,135 @@ function drawCharts(products) {
 // ТОП-15 товаров по выручке
 // ===========================================
 
-function drawABCChart(products) {
+function drawABCChart(products){
 
-    const topProducts = [...products]
-        .sort((a, b) => b.revenue - a.revenue)
-        .slice(0, 15);
+    const items=[...products]
+        .sort((a,b)=>b.revenue-a.revenue)
+        .slice(0,15);
 
-    const labels = topProducts.map(item => {
+    let total=items.reduce((s,p)=>s+p.revenue,0);
 
-        let name = item.name || "";
+    let cumulative=0;
 
-        if (name.length > 28) {
+    const labels=[];
+    const revenue=[];
+    const percent=[];
 
-            name = name.substring(0, 28) + "...";
+    items.forEach(item=>{
 
-        }
+        labels.push(
 
-        return name;
+            item.name.length>20
+            ? item.name.substring(0,20)+"..."
+            : item.name
+
+        );
+
+        revenue.push(item.revenue);
+
+        cumulative+=item.revenue;
+
+        percent.push(
+
+            (cumulative/total*100).toFixed(1)
+
+        );
 
     });
 
-    const revenue = topProducts.map(item => item.revenue);
-
-    if (abcChart) {
+    if(abcChart){
 
         abcChart.destroy();
 
     }
 
-    abcChart = new Chart(
+    abcChart=new Chart(
 
         document.getElementById("abcChart"),
 
         {
 
-            type: "bar",
+            data:{
 
-            data: {
+                labels,
 
-                labels: labels,
+                datasets:[
 
-                datasets: [{
+                    {
 
-                    label: "Выручка, ₸",
+                        type:"bar",
 
-                    data: revenue,
+                        label:"Выручка",
 
-                    borderRadius: 8,
+                        data:revenue,
 
-                    backgroundColor: "#1976d2"
+                        yAxisID:"y",
 
-                }]
-
-            },
-
-            options: {
-
-                indexAxis: "y",
-
-                responsive: true,
-
-                maintainAspectRatio: false,
-
-                plugins: {
-
-                    legend: {
-
-                        display: false
+                        borderRadius:6
 
                     },
 
-                    title: {
+                    {
 
-                        display: true,
+                        type:"line",
 
-                        text: "ТОП-15 товаров по выручке"
+                        label:"Накопительный %",
+
+                        data:percent,
+
+                        yAxisID:"y1",
+
+                        tension:.35,
+
+                        pointRadius:5
+
+                    }
+
+                ]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                interaction:{
+
+                    mode:"index"
+
+                },
+
+                plugins:{
+
+                    legend:{
+
+                        position:"bottom"
 
                     }
 
                 },
 
-                scales: {
+                scales:{
 
-                    x: {
+                    y:{
 
-                        ticks: {
+                        beginAtZero:true
 
-                            callback: function(value){
+                    },
 
-                                return new Intl.NumberFormat("ru-RU").format(value);
+                    y1:{
 
-                            }
+                        position:"right",
+
+                        min:0,
+
+                        max:100,
+
+                        grid:{
+
+                            drawOnChartArea:false
 
                         }
 
