@@ -127,14 +127,11 @@ function loadProducts() {
                 getNumber(row["Накопительный %"]) ||
                 getNumber(row["Накопит."]),
 
-            average:
-                getNumber(row["Среднее, продается за период"]),
+           average: getNumber(row["Среднее"]),
 
-            stdDev:
-                getNumber(row["StdDev (стандартное отклонение)"]),
+            stdDev: getNumber(row["StdDev"]),
 
-            cv:
-                getNumber(row["CV (коэфф. вариации)"]),
+            cv: getNumber(row["CV"]),
 
             abc: getText(row["ABC"]),
 
