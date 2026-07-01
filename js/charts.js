@@ -1,5 +1,5 @@
 // ===========================================
-// ZETA Dashboard v3
+// ZETA Dashboard v4
 // charts.js
 // ===========================================
 
@@ -7,7 +7,7 @@ let abcChart = null;
 let xyzChart = null;
 
 // ===========================================
-// Построение всех графиков
+// Построение графиков
 // ===========================================
 
 function drawCharts(products) {
@@ -18,94 +18,92 @@ function drawCharts(products) {
 }
 
 // ===========================================
-// ABC (Кольцевая диаграмма)
+// Pareto (ТОП-15)
 // ===========================================
 
-// ===========================================
-// ТОП-15 товаров по выручке
-// ===========================================
+function drawABCChart(products) {
 
-function drawABCChart(products){
+    const sorted = [...products].sort((a, b) => b.revenue - a.revenue);
 
-    const items=[...products]
-        .sort((a,b)=>b.revenue-a.revenue)
-        .slice(0,15);
+    const totalRevenue = sorted.reduce((sum, p) => sum + p.revenue, 0);
 
-    let total=items.reduce((s,p)=>s+p.revenue,0);
+    const items = sorted.slice(0, 15);
 
-    let cumulative=0;
+    let cumulative = 0;
 
-    const labels=[];
-    const revenue=[];
-    const percent=[];
+    const labels = [];
+    const revenue = [];
+    const cumulativePercent = [];
 
-    items.forEach(item=>{
+    items.forEach(item => {
 
         labels.push(
 
-            item.name.length>20
-            ? item.name.substring(0,20)+"..."
-            : item.name
+            item.name.length > 24
+                ? item.name.substring(0, 24) + "..."
+                : item.name
 
         );
 
         revenue.push(item.revenue);
 
-        cumulative+=item.revenue;
+        cumulative += item.revenue;
 
-        percent.push(
+        cumulativePercent.push(
 
-            (cumulative/total*100).toFixed(1)
+            ((cumulative / totalRevenue) * 100).toFixed(1)
 
         );
 
     });
 
-    if(abcChart){
+    if (abcChart) {
 
         abcChart.destroy();
 
     }
 
-    abcChart=new Chart(
+    abcChart = new Chart(
 
         document.getElementById("abcChart"),
 
         {
 
-            data:{
+            data: {
 
                 labels,
 
-                datasets:[
+                datasets: [
 
                     {
 
-                        type:"bar",
+                        type: "bar",
 
-                        label:"Выручка",
+                        label: "Выручка",
 
-                        data:revenue,
+                        data: revenue,
 
-                        yAxisID:"y",
+                        borderRadius: 8,
 
-                        borderRadius:6
+                        yAxisID: "y"
 
                     },
 
                     {
 
-                        type:"line",
+                        type: "line",
 
-                        label:"Накопительный %",
+                        label: "Накопительный %",
 
-                        data:percent,
+                        data: cumulativePercent,
 
-                        yAxisID:"y1",
+                        borderWidth: 3,
 
-                        tension:.35,
+                        tension: .35,
 
-                        pointRadius:5
+                        pointRadius: 4,
+
+                        yAxisID: "y1"
 
                     }
 
@@ -113,47 +111,55 @@ function drawABCChart(products){
 
             },
 
-            options:{
+            options: {
 
-                responsive:true,
+                responsive: true,
 
-                maintainAspectRatio:false,
+                maintainAspectRatio: false,
 
-                interaction:{
+                interaction: {
 
-                    mode:"index"
+                    mode: "index",
+
+                    intersect: false
 
                 },
 
-                plugins:{
+                plugins: {
 
-                    legend:{
+                    legend: {
 
-                        position:"bottom"
+                        position: "bottom"
 
                     }
 
                 },
 
-                scales:{
+                scales: {
 
-                    y:{
+                    y: {
 
-                        beginAtZero:true
+                        beginAtZero: true
 
                     },
 
-                    y1:{
+                    y1: {
 
-                        position:"right",
+                        position: "right",
 
-                        min:0,
+                        min: 0,
 
-                        max:100,
+                        max: 100,
 
-                        grid:{
+                        grid: {
 
-                            drawOnChartArea:false
+                            drawOnChartArea: false
+
+                        },
+
+                        ticks: {
+
+                            callback: value => value + "%"
 
                         }
 
@@ -168,26 +174,37 @@ function drawABCChart(products){
     );
 
 }
+
 // ===========================================
-// XYZ (Столбчатая диаграмма)
+// XYZ
 // ===========================================
 
 function drawXYZChart(products) {
 
-    const counts = { X: 0, Y: 0, Z: 0 };
+    const summary = {
+
+        X: 0,
+
+        Y: 0,
+
+        Z: 0
+
+    };
 
     products.forEach(product => {
 
-        if (counts.hasOwnProperty(product.xyz)) {
+        if (summary.hasOwnProperty(product.xyz)) {
 
-            counts[product.xyz]++;
+            summary[product.xyz]++;
 
         }
 
     });
 
     if (xyzChart) {
+
         xyzChart.destroy();
+
     }
 
     xyzChart = new Chart(
@@ -196,29 +213,47 @@ function drawXYZChart(products) {
 
         {
 
-            type: "bar",
+            type: "doughnut",
 
             data: {
 
-                labels: ["X", "Y", "Z"],
+                labels: [
 
-                datasets: [{
+                    "X",
 
-                    label: "Количество товаров",
+                    "Y",
 
-                    data: [
-                        counts.X,
-                        counts.Y,
-                        counts.Z
-                    ],
+                    "Z"
 
-                    backgroundColor: [
-                        "#3498db",
-                        "#f39c12",
-                        "#9b59b6"
-                    ]
+                ],
 
-                }]
+                datasets: [
+
+                    {
+
+                        data: [
+
+                            summary.X,
+
+                            summary.Y,
+
+                            summary.Z
+
+                        ],
+
+                        backgroundColor: [
+
+                            "#2ecc71",
+
+                            "#f39c12",
+
+                            "#e74c3c"
+
+                        ]
+
+                    }
+
+                ]
 
             },
 
@@ -232,23 +267,7 @@ function drawXYZChart(products) {
 
                     legend: {
 
-                        display: false
-
-                    }
-
-                },
-
-                scales: {
-
-                    y: {
-
-                        beginAtZero: true,
-
-                        ticks: {
-
-                            precision: 0
-
-                        }
+                        position: "bottom"
 
                     }
 
