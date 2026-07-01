@@ -58,6 +58,9 @@ function loadProducts() {
     products = [];
 
     const rows = getSheet("ABC_XYZ_Product");
+    console.log("Заголовки Excel:");
+    console.table(Object.keys(rows[0]));
+    console.log(rows[0]);
 
     if (!rows.length) {
 
