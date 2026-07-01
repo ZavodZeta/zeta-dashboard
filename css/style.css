@@ -824,3 +824,34 @@ grid-template-columns:1fr;
 }
 
 }
+/* ==========================================
+   Счетчик товаров
+========================================== */
+
+.table-info{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-bottom:12px;
+
+}
+
+#tableCounter{
+
+    background:#eef5ff;
+
+    color:#0f4c81;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    font-size:14px;
+
+    border:1px solid #d5e6ff;
+
+}
