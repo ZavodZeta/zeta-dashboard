@@ -76,6 +76,14 @@ function renderTable() {
     // -------------------------
 
     filtered.sort((a, b) => b.revenue - a.revenue);
+    const counter = document.getElementById("tableCounter");
+
+if (counter) {
+
+    counter.textContent =
+        `📦 Найдено товаров: ${filtered.length}`;
+
+}
 
     // -------------------------
     // Таблица
