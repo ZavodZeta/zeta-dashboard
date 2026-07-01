@@ -1,116 +1,50 @@
 // ===========================================
+// ZETA Dashboard v3
 // analytics.js
-// Расчет всей аналитики
+//
+// В версии v3 аналитика рассчитывается в Excel.
+// Dashboard только отображает готовые данные.
 // ===========================================
 
 function calculateAnalytics(products) {
 
-    const items = [...products];
+    if (!Array.isArray(products)) {
 
-    // -----------------------------
-    // Прибыль
-    // -----------------------------
+        console.error("calculateAnalytics(): массив товаров не получен.");
 
-    items.forEach(item => {
+        return [];
 
-        item.profit = item.revenue - item.cost;
+    }
 
-    });
+    console.log("====================================");
+    console.log(" ZETA Analytics");
+    console.log("====================================");
 
-    // -----------------------------
-    // ABC анализ
-    // -----------------------------
+    console.log("ABC/XYZ анализ загружен из Excel.");
 
-    items.sort((a, b) => b.profit - a.profit);
+    // Небольшая сводка
+    const summary = {
 
-    const totalProfit = items.reduce((sum, item) => sum + item.profit, 0);
+        revenue: products.reduce((sum, p) => sum + (p.revenue || 0), 0),
 
-    let cumulative = 0;
+        quantity: products.reduce((sum, p) => sum + (p.quantity || 0), 0),
 
-    items.forEach(item => {
+        sku: products.length,
 
-        item.share = totalProfit === 0
-            ? 0
-            : item.profit / totalProfit;
+        A: products.filter(p => p.abc === "A").length,
+        B: products.filter(p => p.abc === "B").length,
+        C: products.filter(p => p.abc === "C").length,
 
-        cumulative += item.share;
+        X: products.filter(p => p.xyz === "X").length,
+        Y: products.filter(p => p.xyz === "Y").length,
+        Z: products.filter(p => p.xyz === "Z").length
 
-        item.cumulative = cumulative;
+    };
 
-        if (cumulative <= 0.80) {
+    console.table(summary);
 
-            item.abc = "A";
+    console.log("====================================");
 
-        }
-
-        else if (cumulative <= 0.95) {
-
-            item.abc = "B";
-
-        }
-
-        else {
-
-            item.abc = "C";
-
-        }
-
-    });
-
-    // -----------------------------
-    // XYZ анализ
-    // -----------------------------
-
-    items.forEach(item => {
-
-        const months = item.months;
-
-        const average =
-            months.reduce((a, b) => a + b, 0) / months.length;
-
-        const variance =
-            months.reduce((sum, value) => {
-
-                return sum + Math.pow(value - average, 2);
-
-            }, 0) / months.length;
-
-        const stdDev = Math.sqrt(variance);
-
-        const cv = average === 0 ? 0 : stdDev / average;
-
-        item.average = average;
-
-        item.stdDev = stdDev;
-
-        item.cv = cv;
-
-        if (cv <= 0.10) {
-
-            item.xyz = "X";
-
-        }
-
-        else if (cv <= 0.25) {
-
-            item.xyz = "Y";
-
-        }
-
-        else {
-
-            item.xyz = "Z";
-
-        }
-
-        item.matrix = item.abc + item.xyz;
-
-    });
-
-    console.log("Analytics готов");
-
-    console.table(items);
-
-    return items;
+    return products;
 
 }
