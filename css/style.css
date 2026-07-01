@@ -605,3 +605,222 @@ grid-template-columns:1fr;
 }
 
 }
+/* ==========================================
+   Панель поиска и фильтрации
+========================================== */
+
+.table-toolbar{
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.table-toolbar input{
+
+    flex:1;
+
+    min-width:320px;
+
+    padding:12px 16px;
+
+    border:1px solid #d7dee8;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.2s;
+
+}
+
+.table-toolbar input:focus{
+
+    border-color:#1976d2;
+
+    box-shadow:0 0 0 3px rgba(25,118,210,.15);
+
+}
+
+.table-toolbar select{
+
+    min-width:220px;
+
+    padding:12px 16px;
+
+    border:1px solid #d7dee8;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    background:#fff;
+
+    transition:.2s;
+
+}
+
+.table-toolbar select:hover{
+
+    border-color:#1976d2;
+
+}
+
+/* ==========================================
+   Цветные бейджи
+========================================== */
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-weight:700;
+
+    font-size:13px;
+
+    color:#fff;
+
+    text-align:center;
+
+    min-width:40px;
+
+}
+
+/* ---------- ABC ---------- */
+
+.badge-a{
+
+    background:#2ecc71;
+
+}
+
+.badge-b{
+
+    background:#f39c12;
+
+}
+
+.badge-c{
+
+    background:#e74c3c;
+
+}
+
+/* ---------- XYZ ---------- */
+
+.badge-x{
+
+    background:#3498db;
+
+}
+
+.badge-y{
+
+    background:#9b59b6;
+
+}
+
+.badge-z{
+
+    background:#7f8c8d;
+
+}
+
+/* ---------- Матрица ---------- */
+
+.badge-ax{
+
+    background:#27ae60;
+
+}
+
+.badge-ay{
+
+    background:#2ecc71;
+
+}
+
+.badge-az{
+
+    background:#58d68d;
+
+}
+
+.badge-bx{
+
+    background:#f39c12;
+
+}
+
+.badge-by{
+
+    background:#f5b041;
+
+}
+
+.badge-bz{
+
+    background:#f8c471;
+
+}
+
+.badge-cx{
+
+    background:#e67e22;
+
+}
+
+.badge-cy{
+
+    background:#ec7063;
+
+}
+
+.badge-cz{
+
+    background:#c0392b;
+
+}
+
+/* ==========================================
+   Адаптивность
+========================================== */
+
+@media(max-width:900px){
+
+.table-toolbar{
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+}
+
+.table-toolbar input{
+
+    min-width:100%;
+
+}
+
+.table-toolbar select{
+
+    width:100%;
+
+}
+
+}
