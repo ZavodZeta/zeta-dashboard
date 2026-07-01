@@ -1,31 +1,30 @@
 // ===========================================
+// ZETA Dashboard v3
 // abcxyz.js
 // Матрица ABC × XYZ
 // ===========================================
 
-function drawMatrix(products){
+function drawMatrix(products) {
 
     const matrix = {
+        AX: 0,
+        AY: 0,
+        AZ: 0,
 
-        AX:0,
-        AY:0,
-        AZ:0,
+        BX: 0,
+        BY: 0,
+        BZ: 0,
 
-        BX:0,
-        BY:0,
-        BZ:0,
-
-        CX:0,
-        CY:0,
-        CZ:0
-
+        CX: 0,
+        CY: 0,
+        CZ: 0
     };
 
-    products.forEach(item=>{
+    products.forEach(item => {
 
-        const key = item.matrix;
+        const key = item.category;
 
-        if(matrix.hasOwnProperty(key)){
+        if (matrix.hasOwnProperty(key)) {
 
             matrix[key]++;
 
@@ -35,17 +34,17 @@ function drawMatrix(products){
 
     const container = document.getElementById("matrix");
 
-    container.innerHTML="";
+    container.innerHTML = "";
 
-    Object.keys(matrix).forEach(key=>{
+    Object.keys(matrix).forEach(key => {
 
-        const div=document.createElement("div");
+        const div = document.createElement("div");
 
-        div.className="matrix-cell "+key.toLowerCase();
+        div.className = "matrix-cell " + key.toLowerCase();
 
-        div.innerHTML=`
-            <div style="font-size:22px">${key}</div>
-            <div style="font-size:34px">${matrix[key]}</div>
+        div.innerHTML = `
+            <div style="font-size:20px;font-weight:bold;">${key}</div>
+            <div style="font-size:34px;margin-top:8px;">${matrix[key]}</div>
         `;
 
         container.appendChild(div);
