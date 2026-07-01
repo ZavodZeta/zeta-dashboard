@@ -1,5 +1,5 @@
 // ===========================================
-// ZETA Dashboard v3
+// ZETA Dashboard v4
 // dashboard.js
 // ===========================================
 
@@ -11,7 +11,6 @@ function initDashboard(products) {
     console.log("==================================");
 
     drawKPI(products);
-
     drawSummary(products);
 
     if (typeof drawCharts === "function") {
@@ -40,6 +39,8 @@ function drawKPI(products) {
 
     const quantity = products.reduce((sum, p) => sum + (p.quantity || 0), 0);
 
+    const profit = products.reduce((sum, p) => sum + (p.profit || 0), 0);
+
     const sku = products.length;
 
     const A = products.filter(p => p.abc === "A").length;
@@ -51,9 +52,9 @@ function drawKPI(products) {
     const Z = products.filter(p => p.xyz === "Z").length;
 
     const matrix = {
-        AX:0, AY:0, AZ:0,
-        BX:0, BY:0, BZ:0,
-        CX:0, CY:0, CZ:0
+        AX: 0, AY: 0, AZ: 0,
+        BX: 0, BY: 0, BZ: 0,
+        CX: 0, CY: 0, CZ: 0
     };
 
     products.forEach(product => {
@@ -68,6 +69,7 @@ function drawKPI(products) {
 
     setValue("revenue", revenue.toLocaleString("ru-RU") + " ₸");
     setValue("quantity", quantity.toLocaleString("ru-RU"));
+    setValue("profit", profit.toLocaleString("ru-RU") + " ₸");
     setValue("sku", sku);
 
     setValue("a", A);
@@ -90,29 +92,26 @@ function drawKPI(products) {
 // Сводка руководителя
 // ===========================================
 
-function drawSummary(products){
+function drawSummary(products) {
 
     const summary = document.getElementById("summary");
 
-    if(!summary) return;
+    if (!summary) return;
 
-    const revenue =
-        products.reduce((s,p)=>s+p.revenue,0);
+    const revenue = products.reduce((s, p) => s + (p.revenue || 0), 0);
 
-    const quantity =
-        products.reduce((s,p)=>s+p.quantity,0);
+    const quantity = products.reduce((s, p) => s + (p.quantity || 0), 0);
 
-    const leader =
-        [...products].sort((a,b)=>b.revenue-a.revenue)[0];
+    const profit = products.reduce((s, p) => s + (p.profit || 0), 0);
 
-    const A =
-        products.filter(p=>p.abc==="A").length;
+    const leader = [...products]
+        .sort((a, b) => b.revenue - a.revenue)[0];
 
-    const AX =
-        products.filter(p=>p.category==="AX").length;
+    const A = products.filter(p => p.abc === "A").length;
 
-    const CZ =
-        products.filter(p=>p.category==="CZ").length;
+    const AX = products.filter(p => p.category === "AX").length;
+
+    const CZ = products.filter(p => p.category === "CZ").length;
 
     summary.innerHTML = `
 
@@ -128,6 +127,14 @@ function drawSummary(products){
 
         <div class="summary-card">
 
+            <h3>💵 Валовая прибыль</h3>
+
+            <p>${profit.toLocaleString("ru-RU")} ₸</p>
+
+        </div>
+
+        <div class="summary-card">
+
             <h3>📦 Количество</h3>
 
             <p>${quantity.toLocaleString("ru-RU")}</p>
@@ -138,7 +145,7 @@ function drawSummary(products){
 
             <h3>🏆 Лидер продаж</h3>
 
-            <p>${leader.name}</p>
+            <p>${leader ? leader.name : "-"}</p>
 
         </div>
 
@@ -175,7 +182,9 @@ function drawSummary(products){
         <p>
 
         За первое полугодие ассортимент сформировал
-        выручку <strong>${revenue.toLocaleString("ru-RU")} ₸</strong>.
+        выручку <strong>${revenue.toLocaleString("ru-RU")} ₸</strong>
+        при валовой прибыли
+        <strong>${profit.toLocaleString("ru-RU")} ₸</strong>.
 
         Основной вклад в продажи обеспечивают товары
         категории <strong>AX</strong>, которые рекомендуется
