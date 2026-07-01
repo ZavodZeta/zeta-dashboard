@@ -487,3 +487,42 @@ font-size:13px;
 }
 
 }
+/* ===========================
+   SUMMARY
+=========================== */
+
+.summary-box{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.summary-box h2{
+
+    color:#0f4c81;
+
+    margin-bottom:20px;
+
+}
+
+#summary{
+
+    font-size:17px;
+
+    line-height:1.9;
+
+}
+
+#summary strong{
+
+    color:#1976d2;
+
+}
