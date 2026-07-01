@@ -21,22 +21,36 @@ function drawCharts(products) {
 // ABC (Кольцевая диаграмма)
 // ===========================================
 
+// ===========================================
+// ТОП-15 товаров по выручке
+// ===========================================
+
 function drawABCChart(products) {
 
-    const counts = { A: 0, B: 0, C: 0 };
+    const topProducts = [...products]
+        .sort((a, b) => b.revenue - a.revenue)
+        .slice(0, 15);
 
-    products.forEach(product => {
+    const labels = topProducts.map(item => {
 
-        if (counts.hasOwnProperty(product.abc)) {
+        let name = item.name || "";
 
-            counts[product.abc]++;
+        if (name.length > 28) {
+
+            name = name.substring(0, 28) + "...";
 
         }
 
+        return name;
+
     });
 
+    const revenue = topProducts.map(item => item.revenue);
+
     if (abcChart) {
+
         abcChart.destroy();
+
     }
 
     abcChart = new Chart(
@@ -45,35 +59,29 @@ function drawABCChart(products) {
 
         {
 
-            type: "doughnut",
+            type: "bar",
 
             data: {
 
-                labels: ["A", "B", "C"],
+                labels: labels,
 
                 datasets: [{
 
-                    label: "Количество товаров",
+                    label: "Выручка, ₸",
 
-                    data: [
-                        counts.A,
-                        counts.B,
-                        counts.C
-                    ],
+                    data: revenue,
 
-                    backgroundColor: [
-                        "#2ecc71",
-                        "#f1c40f",
-                        "#e74c3c"
-                    ],
+                    borderRadius: 8,
 
-                    borderWidth: 1
+                    backgroundColor: "#1976d2"
 
                 }]
 
             },
 
             options: {
+
+                indexAxis: "y",
 
                 responsive: true,
 
@@ -83,7 +91,33 @@ function drawABCChart(products) {
 
                     legend: {
 
-                        position: "bottom"
+                        display: false
+
+                    },
+
+                    title: {
+
+                        display: true,
+
+                        text: "ТОП-15 товаров по выручке"
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+
+                            callback: function(value){
+
+                                return new Intl.NumberFormat("ru-RU").format(value);
+
+                            }
+
+                        }
 
                     }
 
@@ -96,7 +130,6 @@ function drawABCChart(products) {
     );
 
 }
-
 // ===========================================
 // XYZ (Столбчатая диаграмма)
 // ===========================================
