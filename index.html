@@ -3,17 +3,17 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ZETA Dashboard</title>
+    <title>ZETA BI Dashboard</title>
 
-<link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 </head>
 
@@ -21,113 +21,194 @@
 
 <header class="header">
 
-<h1>ZETA Dashboard</h1>
+    <h1>ZETA BI Dashboard</h1>
 
-<p>ABC / XYZ Анализ предприятия</p>
+    <p>ABC / XYZ Анализ ассортимента предприятия</p>
 
 </header>
 
 <main class="container">
 
+<!-- ===================================================== -->
+<!-- KPI -->
+<!-- ===================================================== -->
+
 <section class="cards">
 
-<div class="card">
+    <div class="card big">
+        <h3>Выручка</h3>
+        <p id="revenue">0 ₸</p>
+    </div>
 
-<h3>Выручка</h3>
+    <div class="card">
+        <h3>Количество</h3>
+        <p id="quantity">0</p>
+    </div>
 
-<p id="revenue">0 ₸</p>
+    <div class="card">
+        <h3>SKU</h3>
+        <p id="sku">0</p>
+    </div>
 
-</div>
-
-<div class="card">
-
-<h3>SKU</h3>
-
-<p id="sku">0</p>
-
-</div>
-
-<div class="card">
-
-<h3>Клиенты</h3>
-
-<p id="clients">0</p>
-
-</div>
-
-<div class="card">
-
-<h3>Валовая прибыль</h3>
-
-<p id="profit">0 ₸</p>
-
-</div>
+    <div class="card">
+        <h3>AX</h3>
+        <p id="ax">0</p>
+    </div>
 
 </section>
+
+<!-- ===================================================== -->
+<!-- ABC -->
+<!-- ===================================================== -->
+
+<section class="cards small">
+
+    <div class="card green">
+
+        <h3>A</h3>
+
+        <p id="a">0</p>
+
+    </div>
+
+    <div class="card yellow">
+
+        <h3>B</h3>
+
+        <p id="b">0</p>
+
+    </div>
+
+    <div class="card red">
+
+        <h3>C</h3>
+
+        <p id="c">0</p>
+
+    </div>
+
+    <div class="card blue">
+
+        <h3>X</h3>
+
+        <p id="x">0</p>
+
+    </div>
+
+    <div class="card orange">
+
+        <h3>Y</h3>
+
+        <p id="y">0</p>
+
+    </div>
+
+    <div class="card purple">
+
+        <h3>Z</h3>
+
+        <p id="z">0</p>
+
+    </div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- MATRIX -->
+<!-- ===================================================== -->
+
+<section class="cards matrix">
+
+    <div class="card"><h3>AY</h3><p id="ay">0</p></div>
+    <div class="card"><h3>AZ</h3><p id="az">0</p></div>
+
+    <div class="card"><h3>BX</h3><p id="bx">0</p></div>
+    <div class="card"><h3>BY</h3><p id="by">0</p></div>
+    <div class="card"><h3>BZ</h3><p id="bz">0</p></div>
+
+    <div class="card"><h3>CX</h3><p id="cx">0</p></div>
+    <div class="card"><h3>CY</h3><p id="cy">0</p></div>
+    <div class="card"><h3>CZ</h3><p id="cz">0</p></div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- Charts -->
+<!-- ===================================================== -->
 
 <section class="charts">
 
-<div class="chart-box">
+    <div class="chart-box">
 
-<h2>ABC анализ</h2>
+        <h2>ABC Анализ</h2>
 
-<canvas id="abcChart"></canvas>
+        <canvas id="abcChart"></canvas>
 
-</div>
+    </div>
 
-<div class="chart-box">
+    <div class="chart-box">
 
-<h2>XYZ анализ</h2>
+        <h2>XYZ Анализ</h2>
 
-<canvas id="xyzChart"></canvas>
+        <canvas id="xyzChart"></canvas>
 
-</div>
-
-</section>
-
-<section class="matrix">
-
-<h2>Матрица ABC × XYZ</h2>
-
-<div id="matrix"></div>
+    </div>
 
 </section>
 
-<section>
+<!-- ===================================================== -->
+<!-- MATRIX -->
+<!-- ===================================================== -->
 
-<h2>Товары</h2>
+<section class="matrix-box">
 
-<table id="productTable">
+    <h2>Матрица ABC × XYZ</h2>
 
-<thead>
+    <div id="matrix"></div>
 
-<tr>
+</section>
 
-<th>SKU</th>
+<!-- ===================================================== -->
+<!-- TABLE -->
+<!-- ===================================================== -->
 
-<th>Наименование</th>
+<section class="table-box">
 
-<th>Выручка</th>
+    <h2>Товары</h2>
 
-<th>Прибыль</th>
+    <table id="productTable">
 
-<th>ABC</th>
+        <thead>
 
-<th>XYZ</th>
+        <tr>
 
-<th>CV</th>
+            <th>№</th>
 
-<th>Матрица</th>
+            <th>Товар</th>
 
-</tr>
+            <th>Количество</th>
 
-</thead>
+            <th>Выручка</th>
 
-<tbody>
+            <th>Доля</th>
 
-</tbody>
+            <th>Накопит.</th>
 
-</table>
+            <th>ABC</th>
+
+            <th>XYZ</th>
+
+            <th>Категория</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
 
 </section>
 
